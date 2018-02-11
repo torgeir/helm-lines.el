@@ -101,6 +101,8 @@ Intents the line after inserting it."
 (defun helm-lines ()
   "Helm-lines entry point."
   (interactive)
+  (when (not (executable-find "ag"))
+    (user-error "Helm-lines: Could not find executable `ag', did you install it? https://github.com/ggreer/the_silver_searcher"))
   (helm :input (helm-lines--trim-newline (thing-at-point 'line t))
         :sources '(helm-lines--source)
         :keymap helm-lines--map))
