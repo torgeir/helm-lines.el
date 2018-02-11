@@ -1,11 +1,25 @@
-;;; helm-lines.el --- A helm interface for completing by lines in project -*- lexical-binding: t; -*-
+;;; helm-lines.el --- A helm interface for completing by lines -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2012-2016 Free Software Foundation, Inc.
 
 ;; Author: @torgeir
 ;; Version: 1.0.0
-;; Keywords: helm ag git lines complete
+;; Keywords: files helm ag vc git lines complete tools languages
 ;; Package-Requires: ((emacs "24.4") (helm "1.9.8"))
+;; URL: https://github.com/torgeir/helm-lines.el/
+
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 
