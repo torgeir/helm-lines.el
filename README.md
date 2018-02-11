@@ -33,10 +33,6 @@ helm-ag - https://github.com/syohex/emacs-helm-ag
 
 Copyright (C) 2018 Torgeir Thoresen
 
-Author: @torgeir
-
-Keywords: helm ag git lines complete
-
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
