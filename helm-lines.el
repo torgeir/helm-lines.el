@@ -35,6 +35,7 @@
 
 (require 'helm)
 (require 'thingatpt)
+(require 'subr-x)
 
 
 (defun helm-lines--action (line)
@@ -70,7 +71,7 @@ Intents the line after inserting it."
 (defun helm-lines--candidates ()
   "Helm candidates by listing all lines under the current git root."
   (let* ((git-root (helm-lines--trim-newline (shell-command-to-string "git rev-parse --show-toplevel")))
-         (query (if (string-equal helm-pattern "")
+         (query (if (string-empty-p helm-pattern)
                     "^.*$"
                   helm-pattern))
          (cmd (format (concat "ag"
