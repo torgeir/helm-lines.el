@@ -41,7 +41,7 @@
   "Insert the selected LINE at the beginning of the current line.
 Intents the line after inserting it."
   (move-beginning-of-line 1)
-  (when (not (looking-at-p "$"))
+  (when (not (eolp))
     (kill-line))
   (insert line)
   (indent-for-tab-command))
