@@ -30,6 +30,11 @@
 ;;
 ;; Enable `helm-follow-mode' to replace in place as you jump around
 ;; the suggestions.
+;;
+;; Requires both `git' and `ag' [1] to be installed.
+;;
+;;   [1]: https://github.com/ggreer/the_silver_searcher
+;;
 
 ;;; Code:
 

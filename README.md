@@ -15,6 +15,8 @@ Or preferably using the ingenious [use-package](https://github.com/jwiegley/use-
   :commands (helm-lines))
 ```
 
+This package requires both `git` and [`ag`](https://github.com/ggreer/the_silver_searcher).
+
 ## Features
 
 This plugin will let you complete lines you already typed elsewhere in your project, by searching through files in the current git repo using [`ag`](https://github.com/ggreer/the_silver_searcher), displaying the results in helm.
