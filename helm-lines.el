@@ -42,7 +42,7 @@
   "Insert the selected LINE at the beginning of the current line.
 Intents the line after inserting it."
   (move-beginning-of-line 1)
-  (when (not (eolp))
+  (unless (eolp)
     (kill-line))
   (insert line)
   (indent-for-tab-command))
@@ -102,7 +102,7 @@ Intents the line after inserting it."
 (defun helm-lines ()
   "Helm-lines entry point."
   (interactive)
-  (when (not (executable-find "ag"))
+  (unless (executable-find "ag")
     (user-error "Helm-lines: Could not find executable `ag', did you install it? https://github.com/ggreer/the_silver_searcher"))
   (helm :input (helm-lines--trim-newline (thing-at-point 'line t))
         :sources '(helm-lines--source)
