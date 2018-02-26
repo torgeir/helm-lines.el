@@ -19,7 +19,7 @@ Or preferably using the ingenious [use-package](https://github.com/jwiegley/use-
 
 This plugin will let you complete lines you already typed elsewhere in your project, by searching through files in the current git repo using [`ag`](https://github.com/ggreer/the_silver_searcher), displaying the results in helm.
 
-Run `helm-lines` to pop open a search for a line that contains what you already typed on the line you are at. Skip between them with `C-p` and `C-n` and hit enter to finish up the line. 
+Run `helm-lines` to pop open a search for a line that contains what you already typed on the line you are at. Skip between them with `C-p` and `C-n` and hit enter to finish up the line.
 
 <img src="https://github.com/torgeir/helm-lines.el/blob/master/demos/helm-lines.gif?raw=true" width="80%" alt="helm-lines-feature-preview" />
 
