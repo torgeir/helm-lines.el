@@ -84,46 +84,38 @@ Intents the line after inserting it."
   (replace-regexp-in-string "\r?\n" "" str))
 
 
-(defun helm-lines--candidates ()
-  "Helm candidates by listing all lines under the current git root."
-  (let* ((git-root (or (funcall helm-lines-project-root-function)
-                       (error "Couldn't determine project root")))
-         (query (if (string-empty-p helm-pattern)
-                    "^.*$"
-                  helm-pattern))
-         (cmd (format (concat "ag"
-                              " --nocolor"
-                              " --nonumbers"
-                              " --nofilename"
-                              " --ignore .git"
-                              " --ignore target"
-                              " --ignore node_modules"
-                              " -i \"%s\""                ;; the pattern
-                              " %s"                       ;; the folder
-                              " | grep -Ev \"^$\""        ;; remove empty lines
-                              " | sed -E \"s/^[ \t]*//\"" ;; remove leading ws
-                              " | sort -u"                ;; unique
-                              " | head -n 100")
-                      (shell-quote-argument query)
-                      (shell-quote-argument git-root))))
-    (helm-lines--async-shell-command cmd)))
-
-
-(defvar helm-lines--source
-  (helm-build-async-source "Complete line in project"
-                           :candidates-process 'helm-lines--candidates
-                           :action 'helm-lines--action))
-
-
-;;;###autoload
 (defun helm-lines ()
   "Helm-lines entry point."
   (interactive)
   (unless (executable-find "ag")
     (user-error "Helm-lines: Could not find executable `ag', did you install it? https://github.com/ggreer/the_silver_searcher"))
-  (helm :input (helm-lines--trim-newline (thing-at-point 'line t))
-        :sources '(helm-lines--source)
-        :keymap helm-lines--map))
+  (lexical-let ((git-root (expand-file-name (or (funcall helm-lines-project-root-function)
+                                                (error "Couldn't determine project root")))))
+    (helm :input (helm-lines--trim-newline (thing-at-point 'line t))
+          :sources (helm-build-async-source "Complete line in project"
+                     :candidates-process
+                     (lambda ()
+                       (let* ((query (if (string-empty-p helm-pattern)
+                                         "^.*$"
+                                       helm-pattern))
+                              (cmd (format (concat "ag"
+                                                   " --nocolor"
+                                                   " --nonumbers"
+                                                   " --nofilename"
+                                                   " --ignore .git"
+                                                   " --ignore target"
+                                                   " --ignore node_modules"
+                                                   " -i \"%s\""                ;; the pattern
+                                                   " %s"                       ;; the folder
+                                                   " | grep -Ev \"^$\""        ;; remove empty lines
+                                                   " | sed -E \"s/^[ \t]*//\"" ;; remove leading ws
+                                                   " | sort -u"                ;; unique
+                                                   " | head -n 100")
+                                           (shell-quote-argument query)
+                                           (shell-quote-argument git-root))))
+                         (helm-lines--async-shell-command cmd)))
+                     :action 'helm-lines--action)
+          :keymap helm-lines--map)))
 
 
 (provide 'helm-lines)
