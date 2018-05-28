@@ -6,7 +6,7 @@ A helm interface for completing by lines elsewhere in your project.
 
 ## Installing
 
-[It's Soon™](https://github.com/melpa/melpa/pull/5300) on [MELPA](https://melpa.org/#/getting-started). When it is, run `M-x package-install helm-links` to install it.
+It's on [MELPA](https://melpa.org/#/getting-started). Run `M-x package-install helm-links` to install it.
 
 Or preferably using the ingenious [use-package](https://github.com/jwiegley/use-package) declaration
 
