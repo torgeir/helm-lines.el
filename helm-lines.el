@@ -67,7 +67,7 @@ Indents the line after inserting it."
   (indent-for-tab-command))
 
 
-(defvar helm-lines--map
+(defvar helm-lines-map
   (let ((map (make-sparse-keymap)))
     (set-keymap-parent map minibuffer-local-map)
     (define-key map (kbd "C-n") 'helm-next-line)
@@ -121,7 +121,7 @@ Indents the line after inserting it."
           :sources (helm-build-async-source "Complete line in project"
                      :candidates-process (lambda () (helm-lines--candidates git-root))
                      :action 'helm-lines--action)
-          :keymap helm-lines--map)))
+          :keymap helm-lines-map)))
 
 
 (provide 'helm-lines)
