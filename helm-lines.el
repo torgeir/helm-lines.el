@@ -46,17 +46,20 @@
 (require 'thingatpt)
 (require 'subr-x)
 
+
 (defgroup helm-lines nil
   "Completion by lines in project."
   :group 'helm)
+
 
 (defcustom helm-lines-project-root-function 'vc-root-dir
   "Function called to find the root directory of the current project."
   :type 'function)
 
+
 (defun helm-lines--action (line)
   "Insert the selected LINE at the beginning of the current line.
-Intents the line after inserting it."
+Indents the line after inserting it."
   (move-beginning-of-line 1)
   (unless (eolp)
     (kill-line))
@@ -74,18 +77,18 @@ Intents the line after inserting it."
 
 
 (defun helm-lines--async-shell-command (cmd)
-  "Execute `NAME'd shell `CMD' async."
+  "Execute shell CMD async. Puts the output in a *helm-lines* buffer."
   (let ((name "helm-lines"))
     (start-process-shell-command name (format "*%s*" name) cmd)))
 
 
 (defun helm-lines--trim-newline (str)
-  "Trim newlines from `STR'."
+  "Trim newlines from STR."
   (replace-regexp-in-string "\r?\n" "" str))
 
 
 (defun helm-lines--candidates (root)
-  "Helm candidates by listing all lines under the current git `ROOT'."
+  "Helm candidates by listing all lines under the current git ROOT."
   (let* ((query (if (string-empty-p helm-pattern)
                     "^.*$"
                   helm-pattern))
