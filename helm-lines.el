@@ -82,11 +82,6 @@ Indents the line after inserting it."
     (start-process-shell-command name (format "*%s*" name) cmd)))
 
 
-(defun helm-lines--trim-newline (str)
-  "Trim newlines from STR."
-  (replace-regexp-in-string "\r?\n" "" str))
-
-
 (defun helm-lines--candidates (root)
   "Helm candidates by listing all lines under the current git ROOT."
   (let* ((query (if (string-empty-p helm-pattern)
@@ -117,7 +112,7 @@ Indents the line after inserting it."
     (user-error "Helm-lines: Could not find executable `ag', did you install it? https://github.com/ggreer/the_silver_searcher"))
   (let ((git-root (expand-file-name (or (funcall helm-lines-project-root-function)
                                         (error "Couldn't determine project root")))))
-    (helm :input (helm-lines--trim-newline (thing-at-point 'line t))
+    (helm :input (string-trim (thing-at-point 'line t))
           :sources (helm-build-async-source "Complete line in project"
                      :candidates-process (lambda () (helm-lines--candidates git-root))
                      :action 'helm-lines--action)
