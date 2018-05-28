@@ -84,24 +84,20 @@ Indents the line after inserting it."
 
 (defun helm-lines--candidates (root)
   "Helm candidates by listing all lines under the current git ROOT."
-  (let* ((query (if (string-empty-p helm-pattern)
-                    "^.*$"
-                  helm-pattern))
-         (cmd (format (concat "ag"
-                              " --nocolor"
-                              " --nonumbers"
-                              " --nofilename"
-                              " --ignore .git"
-                              " --ignore target"
-                              " --ignore node_modules"
-                              " -i \"%s\""                ;; the pattern
-                              " %s"                       ;; the folder
-                              " | grep -Ev \"^$\""        ;; remove empty lines
-                              " | sed -E \"s/^[ \t]*//\"" ;; remove leading ws
-                              " | sort -u"                ;; unique
-                              " | head -n 100")
-                      (shell-quote-argument query)
-                      (shell-quote-argument root))))
+  (let* ((query (if (string-empty-p helm-pattern) "^.*$" helm-pattern))
+         (cmd (concat "ag"
+                      " --nocolor"
+                      " --nonumbers"
+                      " --nofilename"
+                      " --ignore .git"
+                      " --ignore target"
+                      " --ignore node_modules"
+                      " -i \"" (shell-quote-argument query) "\"" ;; the pattern
+                      " " (shell-quote-argument root)            ;; the folder
+                      " | grep -Ev \"^$\""                       ;; remove empty lines
+                      " | sed -E \"s/^[ \t]*//\""                ;; remove leading ws
+                      " | sort -u"                               ;; unique
+                      " | head -n 100")))
     (helm-lines--async-shell-command cmd)))
 
 
