@@ -3,8 +3,8 @@
 ;; Copyright (C) 2012-2016 Free Software Foundation, Inc.
 
 ;; Author: @torgeir
-;; Version: 1.2.0
-;; Keywords: files helm ag vc git lines complete tools languages
+;; Version: 1.3.0
+;; Keywords: files helm ag pt vc git lines complete tools languages
 ;; Package-Requires: ((emacs "24.4") (helm "1.9.8"))
 ;; URL: https://github.com/torgeir/helm-lines.el/
 
