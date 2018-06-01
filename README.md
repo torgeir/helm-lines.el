@@ -15,7 +15,11 @@ Or preferably using the ingenious [use-package](https://github.com/jwiegley/use-
   :commands (helm-lines))
 ```
 
-This package requires both `git` and [`ag`](https://github.com/ggreer/the_silver_searcher).
+This package requires `git` and
+[`ag`](https://github.com/ggreer/the_silver_searcher) or
+[`pt`](https://github.com/monochromegane/the_platinum_searcher). If you prefer
+`pt` over `ag`, remember to `(setq helm-lines-search-function
+'helm-lines-search-pt)` in your config.
 
 ## Features
 
