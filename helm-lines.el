@@ -3,8 +3,8 @@
 ;; Copyright (C) 2012-2016 Free Software Foundation, Inc.
 
 ;; Author: @torgeir
-;; Version: 1.3.0
-;; Keywords: files helm ag pt vc git lines complete tools languages
+;; Version: 1.4.0
+;; Keywords: files helm rg ag pt vc git lines complete tools languages
 ;; Package-Requires: ((emacs "24.4") (helm "1.9.8"))
 ;; URL: https://github.com/torgeir/helm-lines.el/
 
@@ -36,19 +36,20 @@
 ;; of the current version-control tree.  Projectile users might like
 ;; to set this variable to `projectile-root'.
 ;;
-;; Requires `ag' [1], `pt' [2] or similar to be installed. If you prefer
+;; Requires `rg' [1], `ag' [2], `pt' [3] or similar to be installed. If you prefer
 ;; something other than `ag' you need to customize the
 ;; `helm-lines-search-function' accordingly, see below.
 ;;
 ;; The lines completed against are defined by the result of the
 ;; `helm-lines-search-function', and by default it is `helm-lines-search-ag'.
-;; Users that prefer `pt' over `ag' can set this variable to
+;; Users that prefer `pt' over `rg' or `ag' can set this variable to
 ;; `helm-lines-search-pt'. Other engines can be supported by supplying a
 ;; custom search function. It will be called with the shell quoted query and the
 ;; shell quoted folder to search in.
 ;;
-;;   [1]: https://github.com/ggreer/the_silver_searcher
-;;   [2]: https://github.com/monochromegane/the_platinum_searcher
+;;   [1]: https://github.com/BurntSushi/ripgrep
+;;   [2]: https://github.com/ggreer/the_silver_searcher
+;;   [3]: https://github.com/monochromegane/the_platinum_searcher
 
 ;;; Code:
 
@@ -65,6 +66,20 @@
 (defcustom helm-lines-project-root-function 'vc-root-dir
   "Function called to find the root directory of the current project."
   :type 'function)
+
+
+(defun helm-lines-search-rg (query root)
+  "Search for lines matching QUERY in ROOT folder with `rg'."
+  ;; https://jdhao.github.io/2020/02/16/ripgrep_cheat_sheet/
+  (format (concat "rg"
+                  " \"%s\" %s"
+                  " --no-line-number"
+                  " --no-filename"
+                  " --ignore-case"
+                  " -g '!.git'"
+                  " -g '!target'"
+                  " -g '!node_modules'")
+          query root))
 
 
 (defun helm-lines-search-ag (query root)
@@ -142,9 +157,10 @@ Indents the line after inserting it."
 (defun helm-lines ()
   "Helm-lines entry point."
   (interactive)
-  (unless (or (executable-find "ag")
+  (unless (or (executable-find "rg")
+              (executable-find "ag")
               (executable-find "pt"))
-    (user-error "Helm-lines: Could not find executable `ag' or `pt', did you install any of them? https://github.com/ggreer/the_silver_searcher or https://github.com/monochromegane/the_platinum_searcher"))
+    (user-error "Helm-lines: Could not find executable `rg', `ag' or `pt', did you install any of them? https://github.com/BurntSushi/ripgrep, https://github.com/ggreer/the_silver_searcher or https://github.com/monochromegane/the_platinum_searcher"))
   (let ((git-root (expand-file-name (or (funcall helm-lines-project-root-function)
                                         (error "Couldn't determine project root")))))
     (helm :input (string-trim (thing-at-point 'line t))
